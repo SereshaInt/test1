@@ -42,7 +42,7 @@ import subprocess as s, requests, threading
 
 def saveURL(url, filename):
     try:
-        u = requests.get(url)
+        u = requests.get(url, stream=True)
         if u.status_code == 200:
             with open(filename, 'w', encoding="utf-8") as f:
                 f.write(u.text)
@@ -51,9 +51,8 @@ def saveURL(url, filename):
     except Exception as err:
         print("Ошибка: ", err)
 
-a = threading.Thread(target=saveURL, args=("https://epam.com", "c:/1.txt",))
-a.daemon = True
-a.start()
-print(100500)
 
-saveURL("https://epam.com", "c:/11.txt")
+threading.Thread(target=saveURL, args=["https://epam.com", "c:/1.txt"]).start()
+
+print("конец скрипта")
+
